@@ -1,0 +1,19 @@
+/* Import Google Fonts for a retro and modern mix */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=Cormorant:wght@400;700&family=Space+Mono:wght@400;700&display=swap');
+
+/* Apply the fonts throughout your CSS */
+
+/* Base font for the entire application */
+body {
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Font for headers, giving them a vintage feel */
+h1, h2, h3 {
+    font-family: 'Cormorant', serif;
+}
+
+/* Font for special sections or retro text */
+code, .retro-section {
+    font-family: 'Space Mono', monospace;
+}

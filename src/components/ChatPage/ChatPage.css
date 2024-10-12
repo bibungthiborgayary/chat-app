@@ -3,6 +3,16 @@
     flex-direction: column;
     align-items: flex-start; /* Align messages to the start of the container */
   }
+
+  .first-component{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-color: hsl(25, 72%, 89%);
+    background-position: center;
+    color:#3e4e50;;
+  }
   
   .chat-message {
     background-size: cover;
