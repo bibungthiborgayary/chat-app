@@ -50,6 +50,39 @@
     margin-bottom: 10px;
   }
 
+  /* Media query for mobile devices */
+@media (max-width: 768px) {
+  .footer {
+      padding: 15px;
+      text-align: left;
+  }
 
-  
+  .footerLinks {
+      flex-direction: column;
+      gap: 20px;
+  }
+
+  .sublink-footerlinks {
+      margin-bottom: 10px;
+  }
+
+  .copyRight {
+      font-size: 12px;
+  }
+
+  .newsletter {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+  }
+
+  .input {
+      margin-bottom: 10px;
+      width: 100%;
+  }
+
+  .subscribe {
+      width: 100%;
+  }
+}
 
