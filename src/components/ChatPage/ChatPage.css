@@ -5,8 +5,8 @@
   }
   
   .chat-message {
-    height: 70vh;
     background-size: cover;
+    height: 70vh;
     width: 100%; /* Make sure the chat message container takes the full width */
     display: flex;
     flex-direction: column;
@@ -85,7 +85,7 @@
   }
 
   .chat-box-body {
-    max-height: 400px; /* Set a fixed height for the chat box */
+    height: 60vh;
     overflow-y: auto; /* Enable vertical scrolling */
     padding: 10px;
     display: flex;
