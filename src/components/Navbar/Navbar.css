@@ -1,0 +1,43 @@
+.navbar-container{
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #fff;
+}
+
+.logo{
+    font-size: 24px;
+    font-weight: bold;
+}
+a{    
+    text-decoration: none;
+    color: #000;
+}
+
+.navlinks{
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.navbar-buttons{
+    display: flex;
+    gap: 10px;
+}
+
+.get-in-touch{
+   background-color: transparent;
+    padding: 5px 15px;
+    border: 1px solid #000;
+    cursor: pointer;
+}
+
+.start-chatting{
+    background-color: #5f77ff;
+    padding: 5px 15px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
