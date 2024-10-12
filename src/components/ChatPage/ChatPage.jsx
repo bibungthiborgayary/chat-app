@@ -31,6 +31,48 @@ const ChatPage = () => {
                         <div className="message-received">
                             <p>Hi</p>
                         </div>
+                        <div className="message-sent">
+                            <p>Whats up?</p>
+                        </div>
+                        <div className="message-received">
+                            <p>Nothing much, What about you?</p>
+                        </div>
+                        <div className="message-sent">
+                            <p>Same here, what are you doing?</p>
+                        </div>
+                        <div className="message-received">
+                            <p>I was just watching some tv shows</p>
+                        </div>
+                        <div className="message-sent">
+                            <p>Which one?</p>
+                        </div>
+                        <div className="message-received">
+                            <p>The Big Bang Theory, Would you like to watch it Together?</p>
+                        </div>
+                        <div className="message-sent">
+                            <p>Hello</p>
+                        </div>
+                        <div className="message-received">
+                            <p>Hi</p>
+                        </div>
+                        <div className="message-sent">
+                            <p>Whats up?</p>
+                        </div>
+                        <div className="message-received">
+                            <p>Nothing much, What about you?</p>
+                        </div>
+                        <div className="message-sent">
+                            <p>Same here, what are you doing?</p>
+                        </div>
+                        <div className="message-received">
+                            <p>I was just watching some tv shows</p>
+                        </div>
+                        <div className="message-sent">
+                            <p>Which one?</p>
+                        </div>
+                        <div className="message-received">
+                            <p>The Big Bang Theory, Would you like to watch it Together?</p>
+                        </div>
                     </div>
                 </div>
                 <div className="chat-box-footer">
