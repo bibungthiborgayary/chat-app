@@ -57,10 +57,14 @@ button.start-chatting-homepage:hover{
     .homepage-container {
         display: flex;
         flex-direction: column;
-        position: relative;
         justify-content: center;
-        padding: 20px;
+        align-items: center;
+        padding: 50px 20px;
         height: 70vh;
+    }
+
+    .homepage-container img {
+        width: 500px;
     }
 
     .big-heading {
