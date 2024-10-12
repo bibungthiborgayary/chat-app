@@ -18,7 +18,7 @@ const ChatPage = () => {
         <div className="second-component">
             <div className="chat-box">
                 <div className="chat-box-header">
-                    <h1>Connected to Username: Panda</h1>
+                    <h1>Connected to : Panda</h1>
                     <div>
                         <button onClick={handleDisconnect}>Disconnect</button>
                     </div>

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import './Homepage.css'
+import image from '../../assets/images/chatlinker-high-resolution-logo-transparent.svg'
 const Homepage = () => {
 
     const [userId, setUserId] = useState('');
@@ -21,6 +22,7 @@ const Homepage = () => {
 
   return (
     <section className="homepage-container">
+      <img src={image} alt="logo" />
         <h1 className="big-heading">Chat With Someone!!</h1>
         <label className='label-input' htmlFor="userId">Enter your Username to begin Chatting</label>
         <input 

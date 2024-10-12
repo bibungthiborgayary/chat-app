@@ -19,7 +19,8 @@
   
   .message-sent {
     display: inline-block; /* Allow width to adjust based on the content */
-    background-color: #7aff5f;
+    background-color: #facfad;
+    color: #3e4e50;
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
@@ -31,7 +32,8 @@
   
   .message-received {
     display: inline-block; /* Allow width to adjust based on the content */
-    background-color: #ff7373;
+    background-color: #f5ac72;
+    color: #3e4e50;
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
@@ -46,15 +48,16 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background-color: #ffffff;
-    color: #000000;
+    background-color: #f8bd7f;
+    color: #3e4e50;
     border-radius: 5px 5px 0 0;
+    border: 1px solid #3e4e50;
   }
   .chat-box-header button{
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #ff0000;
-    color: #000000;
+    background-color: #f5ac72;
+    color: #3e4e50;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -64,7 +67,7 @@
     display: flex;
     align-items: center;
     padding: 10px;
-    background-color: #ffffff;
+    background-color: #f8bd7f;
     border-radius: 0 0 5px 5px;
   }
   .chat-box-footer input{
@@ -72,16 +75,20 @@
     font-size: 16px;
     width: 100%;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid #3e4e50;
   }
   .chat-box-footer button{
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #5fffff;
-    color: #000000;
+    background-color: #f2aa7e;
+    color: #3e4e50;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+  }
+
+  .chat-box-footer button:hover{
+    background-color: #f87f7f;
   }
 
   .chat-box-body {
@@ -90,13 +97,10 @@
     padding: 10px;
     display: flex;
     flex-direction: column;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    background-image: url("../../assets/images/chatpagewallpaperone.jpg");
+    border: 1px solid #3e4e50;
+    /* background-image: url("../../assets/images/chatpagewallpaperone.jpg"); */
     background-size: cover;
-    background-attachment: fixed; /* Ensure the background image does not scroll */
-    background-position: center; /* Center the background image */
-    background-repeat: no-repeat; /* Prevent the background image from repeating */
+    background-color: #FACFC3;
 }
 
 /* Optional: Customize the scrollbar appearance */
@@ -105,12 +109,12 @@
 }
 
 .chat-box-body::-webkit-scrollbar-thumb {
-    background-color: #888; /* Color of the scrollbar */
+    background-color: #3e4e50; /* Color of the scrollbar */
     border-radius: 4px;
 }
 
 .chat-box-body::-webkit-scrollbar-thumb:hover {
-    background-color: #555; /* Color on hover */
+    background-color: #647d80; /* Color on hover */
 }
 
 
@@ -139,7 +143,7 @@
   }
 
   .chat-box-footer input {
-      width: 100%;
+      width: auto;
   }
 
   .chat-box-footer button {

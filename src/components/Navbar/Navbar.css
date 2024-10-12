@@ -4,13 +4,25 @@
     display: flex;
     justify-content: space-between;
     padding: 10px 20px;
-    background-color: #fff;
+    background-color: #3E4E50;;
     align-items: center;
+    color: #FACFAD;
 }
 
 .logo {
     font-size: 24px;
     font-weight: bold;
+}
+
+.logo img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.logo a {
+    color: #FACFAD;
 }
 
 .navlinks {
@@ -34,7 +46,42 @@
 }
 a {
     text-decoration: none;
-    color: #000;
+    color: #FACFAD;
+}
+
+.navbar-buttons .get-in-touch {
+    background-color: transparent;
+    border: 1px solid #FACFAD;
+    color: #FACFAD;
+    padding: 5px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.navbar-buttons .start-chatting {
+    background-color: #F5AC72; /* Accent color for primary button */
+    padding: 5px 15px;
+    border: none;
+    color: #3E4E50;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.navbar-toggle {
+    color: #FACFAD; /* Light color for the hamburger icon */
+}
+
+.navlinks a:hover
+{
+    color: #f87f7f;
+}
+.get-in-touch:hover{
+    border-color: #f87f7f;
+    color: #f87f7f;
+}
+
+.start-chatting:hover {
+    background-color: #f87f7f;
 }
 
 /* Media query for mobile devices */
@@ -69,5 +116,21 @@ a {
     .start-chatting {
         padding: 10px;
         width: 100%;
+    }
+    .navbar-toggle {
+        color: #FACFAD; /* Light color for the hamburger icon */
+    }
+    
+    .navlinks a:hover
+    {
+        color: #F8BD7F;
+    }
+    .get-in-touch:hover{
+        border-color: #f87f7f;
+        color: #f87f7f;
+    }
+    
+    .start-chatting:hover {
+        background-color: #f87f7f;
     }
 }

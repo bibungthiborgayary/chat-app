@@ -2,19 +2,26 @@
 
 .footer {
     padding: 20px;
-    background-color: #f1f1f1;
+    background-color: #3e4e50;
     text-align: center;
+    color: #FACFAD;
   }
   
   .logo {
     font-size: 24px;
     margin-bottom: 10px;
+    color: #FACFAD;
+  }
+
+  .logo:hover{
+    color: #f87f7f;
   }
   
-  .newsletter {
+  .newsletter p{
     margin-bottom: 20px;
+    color: #f8bd7f;
   }
-  
+
   .input {
     padding: 8px;
     margin-right: 10px;
@@ -22,14 +29,22 @@
   
   .subscribe {
     padding: 8px 16px;
-    background-color: #5f77ff;
-    color: #fff;
+    background-color: #f2aa7e;
+    color: #3e4e50;
     border: none;
     cursor: pointer;
+  }
+
+  .subscribe:hover {
+    background-color: #f87f7f;
   }
   
   .copyRight {
     font-size: 14px;
+  }
+  
+  .copyRight p{
+    color: #f8bd7f;
   }
 
   .footerLinks{
@@ -43,12 +58,19 @@
     flex-direction: column;
     align-items: flex-start;
     list-style: none;
+    color: #facfad;
   }
 
   .first-li{
     font-weight: bold;
     margin-bottom: 10px;
+    color: #f0922e;
   }
+
+
+.footerLinks ul li:not(.first-li):hover {
+    color: #f87f7f;
+}
 
   /* Media query for mobile devices */
 @media (max-width: 768px) {
@@ -59,7 +81,6 @@
 
   .footerLinks {
       flex-direction: column;
-      gap: 20px;
   }
 
   .sublink-footerlinks {
@@ -78,11 +99,12 @@
 
   .input {
       margin-bottom: 10px;
-      width: 100%;
+      padding: 8px 16px ;
   }
 
   .subscribe {
-      width: 100%;
+      padding: 8px 16px;
+      margin-bottom: 10px;
   }
 }
 
