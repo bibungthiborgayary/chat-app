@@ -1,88 +1,190 @@
-import { useLocation } from 'react-router-dom'
-import './ChatPage.css'
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { io } from 'socket.io-client';
+import './ChatPage.css';
+
+const socket = io('http://localhost:3001');
 
 const ChatPage = () => {
+    const chatBoxRef = useRef(null);
     const location = useLocation();
-    const username = location.state?.username || "{Default Username}";
-    const handleDisconnect = () => {
-        window.location.href = '/'; // Forces a full page reload to HomePage
-      };
-      
-  return (
-    <div className='grid-container'>
-        <div className="first-component">
-            <div className="user-id-show">
-                <h1>Username: { username ? username : "Lion"} </h1>
-            </div>
-        </div>
-        <div className="second-component">
-            <div className="chat-box">
-                <div className="chat-box-header">
-                    <h1>Connected to : Panda</h1>
-                    <div>
-                        <button onClick={handleDisconnect}>Disconnect</button>
-                    </div>
-                </div>
-                <div className="chat-box-body">
-                    <div className="chat-message">
-                        <div className="message-sent">
-                            <p>Hello</p>
-                        </div>
-                        <div className="message-received">
-                            <p>Hi</p>
-                        </div>
-                        <div className="message-sent">
-                            <p>Whats up?</p>
-                        </div>
-                        <div className="message-received">
-                            <p>Nothing much, What about you?</p>
-                        </div>
-                        <div className="message-sent">
-                            <p>Same here, what are you doing?</p>
-                        </div>
-                        <div className="message-received">
-                            <p>I was just watching some tv shows</p>
-                        </div>
-                        <div className="message-sent">
-                            <p>Which one?</p>
-                        </div>
-                        <div className="message-received">
-                            <p>The Big Bang Theory, Would you like to watch it Together?</p>
-                        </div>
-                        <div className="message-sent">
-                            <p>Hello</p>
-                        </div>
-                        <div className="message-received">
-                            <p>Hi</p>
-                        </div>
-                        <div className="message-sent">
-                            <p>Whats up?</p>
-                        </div>
-                        <div className="message-received">
-                            <p>Nothing much, What about you?</p>
-                        </div>
-                        <div className="message-sent">
-                            <p>Same here, what are you doing?</p>
-                        </div>
-                        <div className="message-received">
-                            <p>I was just watching some tv shows</p>
-                        </div>
-                        <div className="message-sent">
-                            <p>Which one?</p>
-                        </div>
-                        <div className="message-received">
-                            <p>The Big Bang Theory, Would you like to watch it Together?</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="chat-box-footer">
-                    <input type="text" placeholder='Type a message' />
-                    <button>Send</button>
-                </div>
-            </div>
-        </div>
-    </div>
-  )
-}
+    const navigate = useNavigate();
+    const { sessionId, username } = location.state || {};
+    const [messages, setMessages] = useState([]);
+    const [inputMessage, setInputMessage] = useState('');
+    const [isTyping, setIsTyping] = useState(false);
+    const [countdown, setCountdown] = useState(50);
+    const timerRef = useRef(null);
 
-export default ChatPage
+    // Request notification permission when component mounts
+    useEffect(() => {
+        if (Notification.permission === 'default') {
+            Notification.requestPermission()
+                .then((permission) => {
+                    if (permission === 'granted') {
+                        console.log('Notification permission granted.');
+                    }
+                })
+                .catch((err) => console.error('Notification permission error:', err));
+        }
+    }, []);
+
+    useEffect(() => {
+        if (sessionId) {
+            console.log("Joining room with sessionId:", sessionId);
+            socket.emit('joinRoom', sessionId);
+
+            const handleMessage = ({ message, senderId }) => {
+                console.log("Message received:", message, "from sender:", senderId);
+                setMessages((prev) => [...prev, { message, sender: senderId }]);
+                resetCountdown(); // Reset countdown on message receive
+                showNotification(message); // Show notification for new message
+            };
+
+            const handleTyping = (senderId) => {
+                if (senderId !== socket.id) {
+                    setIsTyping(true);
+                    setTimeout(() => setIsTyping(false), 2000);
+                }
+            };
+
+            const handleRoomClosed = (id) => {
+                console.log('Room closed due to user disconnect:', id);
+                alert('The chat has been closed due to the other user disconnecting. You will be redirected to the homepage.');
+                navigate('/');
+            };
+
+            socket.on('message', handleMessage);
+            socket.on('typing', handleTyping);
+            socket.on('roomClosed', handleRoomClosed);
+
+            startCountdown();
+
+            return () => {
+                console.log("Cleaning up socket listeners for sessionId:", sessionId);
+                socket.off('message', handleMessage);
+                socket.off('typing', handleTyping);
+                socket.off('roomClosed', handleRoomClosed);
+                clearTimeout(timerRef.current);
+            };
+        } else {
+            console.log("No sessionId found in location state");
+            navigate('/');
+        }
+    }, [sessionId, navigate]);
+
+    useEffect(() => {
+        if (countdown === 0) {
+            alert("No activity detected. Redirecting to homepage.");
+            navigate('/');
+        }
+    }, [countdown, navigate]);
+
+    useEffect(() => {
+        // Function to scroll the chat box to the bottom
+        const scrollToBottom = () => {
+          if (chatBoxRef.current) {
+            chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+          }
+        };
+    
+        // Call scrollToBottom whenever messages change or a new message arrives
+        scrollToBottom();
+      }, [messages]);
+
+    const startCountdown = () => {
+        setCountdown(50);
+        timerRef.current = setInterval(() => {
+            setCountdown((prev) => {
+                if (prev === 1) {
+                    clearTimeout(timerRef.current);
+                }
+                return prev - 1;
+            });
+        }, 1000);
+    };
+
+    const resetCountdown = () => {
+        clearTimeout(timerRef.current);
+        startCountdown();
+    };
+
+    const sendMessage = () => {
+        if (inputMessage.trim()) {
+            console.log("Sending message:", inputMessage, "to room:", sessionId);
+            socket.emit('message', { message: inputMessage }, sessionId);
+            setMessages((prev) => [...prev, { message: inputMessage, sender: socket.id }]);
+            setInputMessage('');
+            socket.emit('typing', sessionId);
+            resetCountdown(); // Reset countdown on message send
+        } else {
+            alert("Please enter a message before sending");
+            console.log("No message entered");
+        }
+    };
+
+    const handleInputKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    };
+
+    const handleDisconnect = () => {
+        console.log("User disconnecting");
+        navigate('/');
+    };
+
+    // Function to show browser notifications for new messages
+    const showNotification = (message) => {
+        if (Notification.permission === 'granted') {
+            new Notification('New message', {
+                body: message,
+                icon: '/path/to/icon.png' // Optional: Path to an icon for the notification
+            });
+        }
+    };
+
+    return (
+        <div className="grid-container">
+            <div className="first-component">
+                <div className="user-id-show">
+                    <h1>Username: {username}</h1>
+                </div>
+            </div>
+            <div className="second-component">
+                <div className="chat-box">
+                    <div className="chat-box-header">
+                        <h1>Connected to User</h1>
+                        <div>
+                            <button onClick={handleDisconnect}>Disconnect</button>
+                        </div>
+                    </div>
+                    <div className="chat-box-body" ref={chatBoxRef}>
+                        {messages.map((msg, index) => (
+                            <div
+                                key={index}
+                                className={msg.sender === socket.id ? "message-sent" : "message-received"}
+                            >
+                                <p>{msg.message}</p>
+                            </div>
+                        ))}
+                        {isTyping && <div className="typing-indicator">The other user is typing...</div>}
+                    </div>
+                    <div className="chat-box-footer">
+                        <input
+                            type="text"
+                            placeholder="Type a message"
+                            value={inputMessage}
+                            onChange={(e) => setInputMessage(e.target.value)}
+                            onKeyDown={handleInputKeyPress}
+                        />
+                        <button onClick={sendMessage}>Send</button>
+                        <p className="countdown">Redirecting in {countdown} seconds if inactive</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default ChatPage;

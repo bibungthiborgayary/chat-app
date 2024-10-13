@@ -1,11 +1,24 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Homepage.css'
-import image from '../../assets/images/chatlinker-high-resolution-logo-transparent.svg'
-const Homepage = () => {
+import { io } from 'socket.io-client';
+import './Homepage.css';
+import image from '../../assets/images/chatlinker-high-resolution-logo-transparent.svg';
 
+const socket = io('http://localhost:3001');
+
+const Homepage = () => {
     const [userId, setUserId] = useState('');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        socket.on('connectToRoom', (sessionId) => {
+            console.log("Connected to room with sessionId:", sessionId);
+            navigate('/chat', { state: { sessionId, username: userId } });
+        });
+        return () => {
+            socket.off('connectToRoom');
+        };
+    }, [userId, navigate]);
 
     const handleInputChange = (event) => {
         setUserId(event.target.value);
@@ -13,32 +26,41 @@ const Homepage = () => {
 
     const handleStartChat = () => {
         if (userId) {
-          navigate('/chat', { state : { username: userId } });
+            console.log("Start Chatting button clicked with username:", userId);
+            socket.emit('joinQueue', { username: userId });
         } else {
-          alert("Please enter your User ID before starting the chat.");
+            alert("Please enter your Username before starting the chat.");
+            console.log("No username entered");
         }
-      };
+    };
 
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleStartChat();
+        }
+    };
 
-  return (
-    <section className="homepage-container">
-      <img src={image} alt="logo" />
-        <h1 className="big-heading">Chat With Someone!!</h1>
-        <label className='label-input' htmlFor="userId">Enter your Username to begin Chatting</label>
-        <input 
-        className='input-field-homepage'
-        type="text"
-        id="userId"
-        value={userId}
-        onChange={handleInputChange}
-        placeholder='Enter your Username' 
-        />
-        <div className="button-homepage">
-            <button className='start-chatting-homepage' onClick={handleStartChat}>
+    return (
+        <section className="homepage-container">
+            <img src={image} alt="logo" />
+            <h1 className="big-heading">Chat With Someone!!</h1>
+            <label className='label-input' htmlFor="userId">Enter your Username to begin Chatting</label>
+            <input
+                className='input-field-homepage'
+                type="text"
+                id="userId"
+                value={userId}
+                onChange={handleInputChange}
+                onKeyDown={handleKeyPress} // Added Enter key event listener
+                placeholder='Enter your Username'
+            />
+            <div className="button-homepage">
+                <button className='start-chatting-homepage' onClick={handleStartChat}>
                     Start Chatting
                 </button>
-        </div>
-    </section>
-  )
+            </div>
+        </section>
+    );
 }
-export default Homepage
+
+export default Homepage;
