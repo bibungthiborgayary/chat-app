@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
+import { encryptMessage, decryptMessage } from '../../utils/encryption';
 import './ChatPage.css';
 
 const socket = io('http://localhost:3001');
@@ -35,10 +36,11 @@ const ChatPage = () => {
             socket.emit('joinRoom', sessionId);
 
             const handleMessage = ({ message, senderId }) => {
-                console.log("Message received:", message, "from sender:", senderId);
-                setMessages((prev) => [...prev, { message, sender: senderId }]);
+                const decryptedMessage = decryptMessage(message);
+                console.log("Message received:", decryptedMessage, "from sender:", senderId);
+                setMessages((prev) => [...prev, { message: decryptedMessage, sender: senderId }]);
                 resetCountdown(); // Reset countdown on message receive
-                showNotification(message); // Show notification for new message
+                showNotification(decryptedMessage); // Show notification for new message
             };
 
             const handleTyping = (senderId) => {
@@ -83,14 +85,17 @@ const ChatPage = () => {
     useEffect(() => {
         // Function to scroll the chat box to the bottom
         const scrollToBottom = () => {
-          if (chatBoxRef.current) {
-            chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
-          }
+            if (chatBoxRef.current) {
+                chatBoxRef.current.scroll({
+                    top: chatBoxRef.current.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }
         };
-    
+
         // Call scrollToBottom whenever messages change or a new message arrives
         scrollToBottom();
-      }, [messages]);
+    }, [messages]);
 
     const startCountdown = () => {
         setCountdown(50);
@@ -111,8 +116,9 @@ const ChatPage = () => {
 
     const sendMessage = () => {
         if (inputMessage.trim()) {
-            console.log("Sending message:", inputMessage, "to room:", sessionId);
-            socket.emit('message', { message: inputMessage }, sessionId);
+            const encryptedMessage = encryptMessage(inputMessage);
+            console.log("Sending encrypted message:", encryptedMessage, "to room:", sessionId);
+            socket.emit('message', { message: encryptedMessage }, sessionId);
             setMessages((prev) => [...prev, { message: inputMessage, sender: socket.id }]);
             setInputMessage('');
             socket.emit('typing', sessionId);
