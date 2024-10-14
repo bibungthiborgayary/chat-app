@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 import './Homepage.css';
 import image from '../../assets/images/chatlinker-high-resolution-logo-transparent.svg';
 
-const socket = io('http://localhost:3001');
+const socket = io('https://server-for-my-chat-app.onrender.com');
 
 const Homepage = () => {
     const [userId, setUserId] = useState('');

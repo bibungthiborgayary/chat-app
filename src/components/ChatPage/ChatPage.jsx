@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 import { encryptMessage, decryptMessage } from '../../utils/encryption';
 import './ChatPage.css';
 
-const socket = io('http://localhost:3001');
+const socket = io('https://server-for-my-chat-app.onrender.com');
 
 const ChatPage = () => {
     const chatBoxRef = useRef(null);
